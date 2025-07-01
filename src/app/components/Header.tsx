@@ -44,7 +44,7 @@ const GlobalStyles = createGlobalStyle`
 const menuItems = [
   { key: "home", label: "Home", href: "/" },
   { key: "solutions", label: "Solutions", href: "/solutions", hasDropdown: true },
-  { key: "our-maps", label: "Our Maps", href: "/ourmaps" },
+  { key: "our-maps", label: "Our Maps", href: "/ourmaps", hasDropdown: true },
   { key: "resources", label: "Pricing", href: "/pricing" },
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
@@ -56,6 +56,38 @@ const solutionsDropdownItems = [
   { key: "solution3", label: "Education", href: "/solutions/education" },
   { key: "solution4", label: "Corporate", href: "/solutions/corporate" },
 ];
+
+const ourMapsDropdownItems = [
+  { key: "map1", label: "MIT", href: "https://mit.nakshatramaps.com/" },
+  { key: "map2", label: "MIT revels", href: "https://openhorizonrobotics.github.io/" },
+  { key: "map3", label: "MIT Static Map", href: "/MapMIT v2.0.pdf" },
+];
+
+const dropdownMenu = {
+  items: solutionsDropdownItems.map(({ key, label, href }) => ({
+    key,
+    label: (
+      <Link href={href} style={{ color: '#7adc40', textDecoration: 'none' }}>
+        {label}
+      </Link>
+    ),
+  })),
+};
+
+const ourMapsDropdownMenu = {
+  items: ourMapsDropdownItems.map(({ key, label, href }) => ({
+    key,
+    label: (
+      <Link
+        href={href}
+        target={href.startsWith("http") ? "_blank" : undefined}
+        style={{ color: '#7adc40', textDecoration: 'none' }}
+      >
+        {label}
+      </Link>
+    ),
+  })),
+};
 
 const Navbar = styled.nav`
   width: 100%;
@@ -180,20 +212,9 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
-  const dropdownMenu = {
-    items: solutionsDropdownItems.map(({ key, label, href }) => ({
-      key,
-      label: (
-        <Link href={href} style={{ color: '#7adc40', textDecoration: 'none' }}>
-          {label}
-        </Link>
-      ),
-    })),
-  };
-
   const mobileMenuItems: MenuProps['items'] = [
-    ...menuItems.slice(0, -1).map(({ key, label, href, hasDropdown }) => {
-      if (hasDropdown) {
+    ...menuItems.slice(0, -1).map(({ key, label, href }) => {
+      if (key === "solutions") {
         return {
           key,
           label,
@@ -201,6 +222,25 @@ export default function Header() {
             key: subKey,
             label: (
               <Link href={subHref} onClick={() => setMenuOpen(false)} style={{ color: '#7adc40' }}>
+                {subLabel}
+              </Link>
+            ),
+          })),
+        };
+      }
+      if (key === "our-maps") {
+        return {
+          key,
+          label,
+          children: ourMapsDropdownItems.map(({ key: subKey, label: subLabel, href: subHref }) => ({
+            key: subKey,
+            label: (
+              <Link
+                href={subHref}
+                target={subHref.startsWith("http") ? "_blank" : undefined}
+                onClick={() => setMenuOpen(false)}
+                style={{ color: '#7adc40' }}
+              >
                 {subLabel}
               </Link>
             ),
@@ -250,23 +290,30 @@ export default function Header() {
         />
 
         <DesktopMenu>
-          {menuItems.slice(0, -1).map(({ key, label, href, hasDropdown }) => (
-            <li key={key}>
-              {hasDropdown ? (
-                <Dropdown
-                  menu={dropdownMenu}
-                  trigger={['hover']}
-                  placement="bottomLeft"
-                >
-                  <DropdownTrigger>
-                    {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
-                  </DropdownTrigger>
-                </Dropdown>
-              ) : (
-                <Link href={href}>{label}</Link>
-              )}
-            </li>
-          ))}
+          {menuItems.slice(0, -1).map(({ key, label, href }) => {
+            const isSolutions = key === "solutions";
+            const isOurMaps = key === "our-maps";
+
+            return (
+              <li key={key}>
+                {isSolutions ? (
+                  <Dropdown menu={dropdownMenu} trigger={['hover']} placement="bottomLeft">
+                    <DropdownTrigger>
+                      {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
+                    </DropdownTrigger>
+                  </Dropdown>
+                ) : isOurMaps ? (
+                  <Dropdown menu={ourMapsDropdownMenu} trigger={['hover']} placement="bottomLeft">
+                    <DropdownTrigger>
+                      {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
+                    </DropdownTrigger>
+                  </Dropdown>
+                ) : (
+                  <Link href={href}>{label}</Link>
+                )}
+              </li>
+            );
+          })}
           <li>
             <StyledHeaderButton onClick={() => router.push('/contactus')}>
               Contact Us
