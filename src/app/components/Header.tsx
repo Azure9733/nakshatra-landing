@@ -1,22 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 "use client";
-import { useState } from "react";
+
+import { useState} from "react";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Menu } from "antd";
-import type { MenuProps } from "antd";
 import styled from "styled-components";
 import '@fontsource/orbitron';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 
-
-const items = [
-  { key: "about", label: "About Us", href: "/aboutus" },
-  { key: "products", label: "Solutions", href: "/solutions" },
+const menuItems = [
+  { key: "home", label: "Home", href: "/" },
+  { key: "solutions", label: "Solutions", href: "/solutions" },
   { key: "our-maps", label: "Our Maps", href: "/ourmaps" },
   { key: "resources", label: "Resources", href: "/resources" },
+  { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];
 
@@ -26,61 +24,52 @@ const Navbar = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background: rgb(0,0,0);
   background: linear-gradient(99deg, rgba(0,0,0,1) 0%, rgba(30,30,30,1) 50%, rgba(0,0,0,1) 100%);
-  position: sticky; /* Change from fixed to sticky */
+  position: sticky;
   top: 0;
-  left: 0; /* Add this to ensure full-width positioning */
+  left: 0;
   z-index: 1000;
-  
 `;
-
-
 
 const DesktopMenu = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Push items to the right */
-  flex-grow: 1; /* Allows menu to take available space */
+  justify-content: flex-end;
+  flex-grow: 1;
   gap: 3rem;
   padding: 0;
   li {
-    display: flex;
-    align-items: center;
     font-family: 'Orbitron', sans-serif;
   }
   a {
-    text-decoration: none; /* Default: No underline */
+    text-decoration: none;
     color: #7adc40;
-    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: 1.1rem;
     transition: transform 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
 
     &:hover {
-        transform: scale(1.1); /* Slight zoom effect */
-        text-decoration: underline; /* Underline on hover */
+      transform: scale(1.1);
+      text-decoration: underline;
     }
-}
+  }
 
-  @media (max-width: 1024px) { /* Tablets */
-    gap: 2rem; /* Slightly reduce spacing */
+  @media (max-width: 1024px) {
+    gap: 2rem;
   }
-  @media (max-width: 769px) { /* Adjusted breakpoint */
-    gap: 1rem; /* Further reduce spacing */
-    margin-right: 1rem; /* Add some right margin to prevent clipping */
+  @media (max-width: 769px) {
+    gap: 1rem;
+    margin-right: 1rem;
   }
-  @media (max-width: 768px) { /* Mobile */
+  @media (max-width: 768px) {
     display: none;
   }
 `;
 
-
-
 const MobileMenuButton = styled(Button)`
   display: none;
-  
+
   @media (max-width: 768px) {
     display: flex;
     width: 48px;
@@ -101,13 +90,17 @@ const MobileMenu = styled.div<{ $isOpen?: boolean }>`
   z-index: 1001;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
-  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
+  transition: all 0.3s ease-in-out;
+  transform: ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(-100%)")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
 `;
+
 const StyledHeaderButton = styled(Button)`
   width: clamp(6rem, 8vw, 6.25rem);
   height: clamp(1.8rem, 4vh, 1.8rem);
   font-size: clamp(0.875rem, 1vw, 0.875rem);
-  color:white;
+  color: white;
   font-family: 'DM Sans', sans-serif;
   background-color: #7adc40;
   border-radius: 1.875rem;
@@ -118,9 +111,9 @@ const StyledHeaderButton = styled(Button)`
   justify-content: center;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  
+
   &:hover {
-    color:white !important;
+    color: white !important;
     transform: scale(1.05);
     background-color: #11a5e9 !important;
   }
@@ -130,37 +123,36 @@ const StyledHeaderButton = styled(Button)`
   }
 `;
 
-
-
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter()
-  
+  const router = useRouter();
+
+
   return (
     <Navbar>
-      {/* Logo */}
-      <Image src="/logo.png" alt="Logo" width={150} height={65} />
-      
+      <Image
+        src="/logo6.png"
+        alt="Company Logo"
+        width={250}
+        height={45}
+        priority
+        role="img"
+      />
+
       {/* Desktop Menu */}
       <DesktopMenu>
-      <li>
-        <Link href="/">Home</Link>
-      </li>
-      <li>
-        <Link href="/solutions">Solutions</Link>
-      </li>
-      <li>
-        <Link href="/ourmaps">Our Maps</Link>
-      </li>
-      <li>
-        <Link href="/resources">Resources</Link>
-      </li>
-      <li>
-        <Link href="/aboutus">About Us</Link>
-      </li>
-        <li><StyledHeaderButton onClick={() => router.push('/contactus')}>Contact Us</StyledHeaderButton></li>
+        {menuItems.slice(0, -1).map(({ key, label, href }) => (
+          <li key={key}>
+            <Link href={href}>{label}</Link>
+          </li>
+        ))}
+        <li>
+          <StyledHeaderButton onClick={() => router.push('/contactus')}>
+            Contact Us
+          </StyledHeaderButton>
+        </li>
       </DesktopMenu>
-      
+
       {/* Mobile Menu Button */}
       <MobileMenuButton
         type="text"
@@ -173,13 +165,20 @@ export default function Header() {
         }
         onClick={() => setMenuOpen(!menuOpen)}
       />
-      
+
       {/* Mobile Menu */}
       <MobileMenu $isOpen={menuOpen}>
         <Menu
           mode="vertical"
           theme="dark"
-          items={items}
+          items={menuItems.map(({ key, label, href }) => ({
+            key,
+            label: (
+              <Link href={href} onClick={() => setMenuOpen(false)}>
+                {label}
+              </Link>
+            ),
+          }))}
           style={{
             background: "transparent",
             color: "#ffffff",

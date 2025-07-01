@@ -100,10 +100,7 @@ export default function Footer() {
         <FooterContainer>
             <StyledList size="small" bordered header="COMPANY">
                 <List.Item><ListItemLink href="/aboutus">About Us</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="/careers">Careers</ListItemLink></List.Item>
                 <List.Item><ListItemLink href="/contactus">Contact</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Privacy</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Terms</ListItemLink></List.Item>
             </StyledList>
 
             <StyledList size="small" bordered header="SOLUTIONS">
@@ -114,11 +111,7 @@ export default function Footer() {
             </StyledList>
 
             <StyledList size="small" bordered header="OUR MAPS">
-                <List.Item><ListItemLink href="#">Xyntrax Sector 9</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Beta-Zone Alpha</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Neon Grid-42</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Delta Echo Ridge</ListItemLink></List.Item>
-                <List.Item><ListItemLink href="#">Zeta Prime Junction</ListItemLink></List.Item>
+                <List.Item><ListItemLink href="#">MIT</ListItemLink></List.Item>
             </StyledList>
 
             <StyledList size="small" bordered header="RESOURCES">
@@ -143,8 +136,6 @@ export default function Footer() {
       <Link href="https://www.linkedin.com/company/nakshatra-mapping-solutions/posts/?feedView=all" target="_blank" rel="noopener noreferrer">
       <LinkedinOutlined />
       </Link>
-      <XOutlined />
-      <YoutubeOutlined />
     </SocialContainer>
             
             
