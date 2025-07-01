@@ -158,7 +158,7 @@ Trusted By:
  </StyledSubTypography2>
  <StyledSubTypography2>
 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-  <li style={{ color: 'orange' }}>Innovation Centre</li>
+  <li style={{ color: 'orange' }}>Innovation Centre, Manipal institute of Technology, MAHE</li>
 
   <li>10,000+ users</li>
 </ul>
