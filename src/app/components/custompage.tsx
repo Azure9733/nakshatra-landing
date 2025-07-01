@@ -22,9 +22,11 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; /* <-- Add this line */
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.5rem);
 `;
+
 
 const RightContainer = styled.div`
   flex: 1 1 clamp(300px, 65%, 800px);
@@ -35,6 +37,7 @@ const RightContainer = styled.div`
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(1rem, 3vw, 1.6rem);
   line-height: 1.6;
+  margin-right:20px;
 `;
 
 
@@ -98,6 +101,7 @@ const getContent = (page: number) => {
             width={300}
             height={500}
             style={{ borderRadius: '12px', marginBottom: '20px' }}
+            
           />
         ),
         right:
