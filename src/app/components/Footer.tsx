@@ -139,7 +139,7 @@ export default function Footer() {
       <LinkedinOutlined />
       </Link>
     </SocialContainer>
-            
+            © 2025 Nakshatra Mapping Solutions Pvt. Ltd. All rights reserved.
             
         </FooterContainer>
     );

@@ -107,7 +107,26 @@ const StyledButton = styled(Button)`
     transform: scale(0.95);
   }
 `;
+const StyledSubTypography2 = styled(Typography)`
+  width: clamp(85%, calc(70% + 5vw), 100%);
+  margin: 0 auto;
+  text-align: center;
+  font-size: clamp(1.5rem, 3.5vw, 1.5rem);
+  color: white;
+  padding: 0.5rem;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 4rem; /* Added spacing below */
 
+  @media (min-width: 768px) {
+    padding: 0.75rem;
+    margin-bottom: 2.25rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+  }
+`;
 
 
 const Home = () => {
@@ -132,7 +151,26 @@ We at Nakshatra help large public spaces like airports, theme parks, malls, hosp
   </>
   <PaginatedTwoColumnLayout />
       <MyComponent />
+
+      <StyledSubTypography2>
+          
+Trusted By: 
+ </StyledSubTypography2>
+ <StyledSubTypography2>
+<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+  <li style={{ color: 'orange' }}>Innovation Centre</li>
+
+  <li>10,000+ users</li>
+</ul>
+ 
+ </StyledSubTypography2>
+ <StyledSubTypography2>
+          
+
+ </StyledSubTypography2>
+ <StyledButton onClick={() => router.push('/contactus')}>Contact Us</StyledButton>
       <Footer />
+
     </div>
   );
 };
