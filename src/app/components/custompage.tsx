@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import '@fontsource/dm-sans';
 import Image from 'next/image';
+import { ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
 
 // Styled Components
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -42,24 +44,24 @@ const ResponsiveImage = styled(Image)`
   margin-bottom: 20px;
 `;
 
-
-const ArrowNavigation = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 80px;
-  font-size: 2rem;
+const NavIcon = styled.div<{ position: 'left' | 'right' }>`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.position === 'left' ? 'left: 10px;' : 'right: 10px;')}
+  transform: translateY(-50%);
   cursor: pointer;
-  user-select: none;
+  z-index: 10;
 
-  span {
-    transition: color 0.2s ease;
+  svg {
+    color: white;
+    transition: color 0.3s ease;
   }
 
-  span:hover {
+  &:hover svg {
     color: #ccc;
   }
 `;
+
 const FadeWrapper = styled.div<{ keyProp: number }>`
   animation: fadeIn 0.4s ease-in-out;
 
@@ -155,16 +157,20 @@ const PaginatedTwoColumnLayout: React.FC = () => {
 
   return (
     <>
-    <FadeWrapper keyProp={currentPage}></FadeWrapper>
-      <Wrapper>
-        <LeftContainer>{left}</LeftContainer>
-        <RightContainer>{right}</RightContainer>
-      </Wrapper>
+      <FadeWrapper keyProp={currentPage}>
+        <Wrapper>
+          <NavIcon position="left" onClick={goPrev}>
+            <ArrowLeftCircle size={40} />
+          </NavIcon>
 
-      <ArrowNavigation>
-        <span onClick={goPrev}>←</span>
-        <span onClick={goNext}>→</span>
-      </ArrowNavigation>
+          <NavIcon position="right" onClick={goNext}>
+            <ArrowRightCircle size={40} />
+          </NavIcon>
+
+          <LeftContainer>{left}</LeftContainer>
+          <RightContainer>{right}</RightContainer>
+        </Wrapper>
+      </FadeWrapper>
     </>
   );
 };

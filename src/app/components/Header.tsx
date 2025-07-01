@@ -1,13 +1,45 @@
 "use client";
 
-import { useState} from "react";
+import { useState } from "react";
 import { MenuOutlined, CloseOutlined, DownOutlined } from "@ant-design/icons";
 import { Button, Menu, Dropdown } from "antd";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import '@fontsource/orbitron';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
+import type { MenuProps } from "antd";
+
+const GlobalStyles = createGlobalStyle`
+  .ant-dropdown-menu {
+    background-color: #000 !important;
+    border-radius: 10px;
+  }
+
+  .ant-dropdown-menu-item {
+    font-family: 'Orbitron', sans-serif;
+    color: #7adc40 !important;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+  }
+
+  .ant-dropdown-menu-item:hover {
+    background-color: #111 !important;
+  }
+
+  .ant-menu-submenu-title {
+    color: #7adc40 !important;
+  }
+
+  .ant-menu-item, .ant-menu-submenu {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-family: 'Orbitron', sans-serif;
+    color: #7adc40 !important;
+  }
+
+  .ant-menu-item:hover {
+    background-color: #111 !important;
+  }
+`;
 
 const menuItems = [
   { key: "home", label: "Home", href: "/" },
@@ -18,11 +50,11 @@ const menuItems = [
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];
 
-// Solutions dropdown items
 const solutionsDropdownItems = [
-  { key: "solution1", label: "Solution 1", href: "/solutions/solution1" },
-  { key: "solution2", label: "Solution 2", href: "/solutions/solution2" },
-  { key: "solution3", label: "Solution 3", href: "/solutions/solution3" },
+  { key: "solution1", label: "Malls", href: "/solutions/malls" },
+  { key: "solution2", label: "Tourism", href: "/solutions/tourism" },
+  { key: "solution3", label: "Education", href: "/solutions/education" },
+  { key: "solution4", label: "Corporate", href: "/solutions/corporate" },
 ];
 
 const Navbar = styled.nav`
@@ -52,7 +84,7 @@ const DesktopMenu = styled.ul`
   li {
     font-family: 'Orbitron', sans-serif;
   }
-  
+
   a {
     text-decoration: none;
     color: #7adc40;
@@ -159,104 +191,114 @@ export default function Header() {
     })),
   };
 
-  const mobileMenuItems = menuItems.map(({ key, label, href, hasDropdown }) => {
-    if (hasDropdown) {
+  const mobileMenuItems: MenuProps['items'] = [
+    ...menuItems.slice(0, -1).map(({ key, label, href, hasDropdown }) => {
+      if (hasDropdown) {
+        return {
+          key,
+          label,
+          children: solutionsDropdownItems.map(({ key: subKey, label: subLabel, href: subHref }) => ({
+            key: subKey,
+            label: (
+              <Link href={subHref} onClick={() => setMenuOpen(false)} style={{ color: '#7adc40' }}>
+                {subLabel}
+              </Link>
+            ),
+          })),
+        };
+      }
       return {
         key,
-        label,
-        children: solutionsDropdownItems.map(({ key: subKey, label: subLabel, href: subHref }) => ({
-          key: subKey,
-          label: (
-            <Link href={subHref} onClick={() => setMenuOpen(false)}>
-              {subLabel}
-            </Link>
-          ),
-        })),
+        label: (
+          <Link href={href} onClick={() => setMenuOpen(false)} style={{ color: '#7adc40' }}>
+            {label}
+          </Link>
+        ),
       };
-    }
-    return {
-      key,
+    }),
+    {
+      key: 'contact-mobile',
       label: (
-        <Link href={href} onClick={() => setMenuOpen(false)}>
-          {label}
-        </Link>
+        <StyledHeaderButton onClick={() => {
+          router.push('/contactus');
+          setMenuOpen(false);
+        }}>
+          Contact Us
+        </StyledHeaderButton>
       ),
-    };
-  });
+    }
+  ];
 
   return (
-    <Navbar>
-      <Image
-        src="/logo6.png"
-        alt="Company Logo"
-        width={0}
-        height={0}
-        sizes="(max-width: 768px) 180px, (max-width: 1024px) 220px, 250px"
-        style={{
-          width: 'clamp(160px, 20vw, 250px)',
-          height: 'auto',
-          maxHeight: 'clamp(30px, 5vh, 45px)',
-          objectFit: 'contain'
-        }}
-        priority
-        role="img"
-      />
-
-      {/* Desktop Menu */}
-      <DesktopMenu>
-        {menuItems.slice(0, -1).map(({ key, label, href, hasDropdown }) => (
-          <li key={key}>
-            {hasDropdown ? (
-              <Dropdown
-                menu={dropdownMenu}
-                trigger={['hover']}
-                placement="bottomLeft"
-              >
-                <DropdownTrigger>
-                  {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
-                </DropdownTrigger>
-              </Dropdown>
-            ) : (
-              <Link href={href}>{label}</Link>
-            )}
-          </li>
-        ))}
-        <li>
-          <StyledHeaderButton onClick={() => router.push('/contactus')}>
-            Contact Us
-          </StyledHeaderButton>
-        </li>
-      </DesktopMenu>
-
-      {/* Mobile Menu Button */}
-      <MobileMenuButton
-        type="text"
-        icon={
-          menuOpen ? (
-            <CloseOutlined style={{ color: "#7adc40", fontSize: `clamp(20px, 4vw, 28px)` }} />
-          ) : (
-            <MenuOutlined style={{ color: "#7adc40", fontSize: `clamp(20px, 4vw, 28px)` }} />
-          )
-        }
-        onClick={() => setMenuOpen(!menuOpen)}
-      />
-
-      {/* Mobile Menu */}
-      <MobileMenu $isOpen={menuOpen}>
-        <Menu
-          mode="vertical"
-          theme="dark"
-          items={mobileMenuItems}
+    <>
+      <GlobalStyles />
+      <Navbar>
+        <Image
+          src="/logo6.png"
+          alt="Company Logo"
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 180px, (max-width: 1024px) 220px, 250px"
           style={{
-            background: "transparent",
-            color: "#ffffff",
-            borderRight: "none",
-            textAlign: "center",
-            fontFamily: "DM Sans",
-            fontSize: `clamp(1.2rem, 3vw, 1.5rem)`,
+            width: 'clamp(160px, 20vw, 250px)',
+            height: 'auto',
+            maxHeight: 'clamp(30px, 5vh, 45px)',
+            objectFit: 'contain'
           }}
+          priority
+          role="img"
         />
-      </MobileMenu>
-    </Navbar>
+
+        <DesktopMenu>
+          {menuItems.slice(0, -1).map(({ key, label, href, hasDropdown }) => (
+            <li key={key}>
+              {hasDropdown ? (
+                <Dropdown
+                  menu={dropdownMenu}
+                  trigger={['hover']}
+                  placement="bottomLeft"
+                >
+                  <DropdownTrigger>
+                    {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
+                  </DropdownTrigger>
+                </Dropdown>
+              ) : (
+                <Link href={href}>{label}</Link>
+              )}
+            </li>
+          ))}
+          <li>
+            <StyledHeaderButton onClick={() => router.push('/contactus')}>
+              Contact Us
+            </StyledHeaderButton>
+          </li>
+        </DesktopMenu>
+
+        <MobileMenuButton
+          type="text"
+          icon={
+            menuOpen ? (
+              <CloseOutlined style={{ color: "#7adc40", fontSize: `clamp(20px, 4vw, 28px)` }} />
+            ) : (
+              <MenuOutlined style={{ color: "#7adc40", fontSize: `clamp(20px, 4vw, 28px)` }} />
+            )
+          }
+          onClick={() => setMenuOpen(!menuOpen)}
+        />
+
+        <MobileMenu $isOpen={menuOpen}>
+          <Menu
+            mode="vertical"
+            theme="dark"
+            items={mobileMenuItems}
+            style={{
+              background: "transparent",
+              borderRight: "none",
+              textAlign: "center",
+            }}
+          />
+        </MobileMenu>
+      </Navbar>
+    </>
   );
 }

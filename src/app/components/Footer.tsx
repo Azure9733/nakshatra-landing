@@ -111,7 +111,9 @@ export default function Footer() {
             </StyledList>
 
             <StyledList size="small" bordered header="OUR MAPS">
-                <List.Item><ListItemLink href="#">MIT</ListItemLink></List.Item>
+                <List.Item><ListItemLink href="https://mit.nakshatramaps.com/" target="_blank">MIT</ListItemLink></List.Item>
+                <List.Item><ListItemLink href="/MapMIT v2.0.pdf" target="_blank">MIT Static Map</ListItemLink></List.Item>
+                <List.Item><ListItemLink href="https://openhorizonrobotics.github.io/" target="_blank">MIT Revels Map</ListItemLink></List.Item>
             </StyledList>
 
             <StyledList size="small" bordered header="RESOURCES">
