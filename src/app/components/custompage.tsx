@@ -37,12 +37,7 @@ const RightContainer = styled.div`
   line-height: 1.6;
 `;
 
-const ResponsiveImage = styled(Image)`
-  width: clamp(200px, 40vw, 300px);
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 20px;
-`;
+
 
 const NavIcon = styled.div<{ position: 'left' | 'right' }>`
   position: absolute;
