@@ -111,7 +111,7 @@ const StyledSubTypography2 = styled(Typography)`
   width: clamp(85%, calc(70% + 5vw), 100%);
   margin: 0 auto;
   text-align: center;
-  font-size: clamp(1.5rem, 3.5vw, 1.5rem);
+  font-size: clamp(2.5rem, 3.5vw, 1.5rem);
   color: white;
   padding: 0.5rem;
   font-family: 'DM Sans', sans-serif;
@@ -157,12 +157,14 @@ We at Nakshatra help large public spaces like airports, theme parks, malls, hosp
 Trusted By: 
  </StyledSubTypography2>
  <StyledSubTypography2>
-<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-  <li style={{ color: 'orange' }}>Innovation Centre, Manipal institute of Technology, MAHE</li>
 
-  <li>10,000+ users</li>
+<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+  <li style={{ color: 'orange', fontWeight: '900' }}>
+    Innovation Centre, Manipal Institute of Technology, MAHE
+  </li>
+  <li style={{ fontWeight: '900' }}>10,000+ users</li>
 </ul>
- 
+
  </StyledSubTypography2>
  <StyledSubTypography2>
           
