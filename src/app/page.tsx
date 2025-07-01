@@ -12,29 +12,24 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Footer from "./components/Footer";
 import MyComponent from "./components/box";
-import CircularGallery from "./components/Ciculargallery";
-
-const StyledTitle = styled(Typography)`
-  text-align: center;
-  font-size: clamp(2.25rem, 5vw, 3rem);
-  color: white;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700;
-  margin-bottom: 1rem;
-`;
-
 
 const StyledCard = styled(Card)`
   width: 100%;
+  min-height: 100vh; /* Full viewport height */
   font-family: 'DM Sans', sans-serif;
   border-radius: 0 0 4rem 4rem;
-  background: rgb(0,0,0);
   background: linear-gradient(99deg, rgba(0,0,0,1) 0%, rgba(30,30,30,1) 50%, rgba(0,0,0,1) 100%);
   border: none;
   padding: clamp(1.25rem, 4vw, 3rem);
   position: relative;
   overflow: hidden;
   margin-bottom: 5rem;
+
+  /* Center content vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &::before {
     content: "";
@@ -53,22 +48,38 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const StyledSubTypography = styled(Typography)`
+const StyledTitle = styled(Typography)`
   text-align: center;
-  font-size: clamp(1.2rem, 3vw, 1.125rem);
+  font-size: clamp(3rem, 6.5vw, 4.5rem);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 1000;
+  margin-bottom: 2.5rem; /* Increased spacing below */
+
+  background: linear-gradient(90deg, #7adc40, #caff89, #7adc40);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+`;
+
+const StyledSubTypography = styled(Typography)`
+  width: clamp(85%, calc(70% + 5vw), 100%);
+  margin: 0 auto;
+  text-align: center;
+  font-size: clamp(1.5rem, 3.5vw, 1.5rem);
   color: white;
   padding: 0.5rem;
   font-family: 'DM Sans', sans-serif;
-  margin-top: 2rem;
+  margin-bottom: 4rem; /* Added spacing below */
 
   @media (min-width: 768px) {
     padding: 0.75rem;
-    margin-top: 1.5rem;
+    margin-bottom: 2.25rem;
   }
 
   @media (min-width: 1200px) {
     padding: 1rem;
-    margin-top: 1.75rem;
+    margin-bottom: 2.5rem;
   }
 `;
 
@@ -81,7 +92,7 @@ const StyledButton = styled(Button)`
   border-radius: 1.875rem;
   border: none;
   display: block;
-  margin: clamp(1.5rem, 3vw, 2rem) auto;
+  margin: 0 auto;
 
   &:hover {
     background-color: #11a5e9 !important;
@@ -93,6 +104,8 @@ const StyledButton = styled(Button)`
   }
 `;
 
+
+
 const Home = () => {
   const router = useRouter();
 
@@ -103,23 +116,13 @@ const Home = () => {
         <StyledTitle>Find Your Way, Stay Informed, Stay Safe.</StyledTitle>
         <StyledSubTypography>
           
-We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other through interactive maps, live event tracking, and smart emergency evacuation systems.
+We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces3 through interactive maps, live event tracking, and smart emergency evacuation systems.
 
 
         </StyledSubTypography>
         <StyledButton onClick={() => router.push('/contactus')}>Contact Us</StyledButton>
       </StyledCard>
       <div style={{ height: '800px', position: 'relative' }}>
-  <CircularGallery 
-  items={[
-    { image: "/arFinal-removebg-preview.png", text: "LOl" },
-    { image: "/emergencyFinal.png", text: "" },
-    { image: "/indoorFinal.png", text: "" },
-    { image: "/outdoor2Final.png", text: "" },
-   
-  ]}
-  bend={0.5}
-/>
 </div>
       <MyComponent />
       <Footer />
