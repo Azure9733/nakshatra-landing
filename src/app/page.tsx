@@ -120,7 +120,7 @@ const Home = () => {
         <StyledTitle>Find Your Way, Stay Informed, Stay Safe.</StyledTitle>
         <StyledSubTypography>
           
-We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces3 through interactive maps, live event tracking, and smart emergency evacuation systems.
+We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces through interactive maps, live event tracking, and smart emergency evacuation systems.
 
 
         </StyledSubTypography>
