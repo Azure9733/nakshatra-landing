@@ -166,11 +166,12 @@ const StyledTitle = styled(Title)`
   && {
     color: white !important;
     font-family: 'DM Sans', sans-serif !important;
+    font-weight: 400 !important; /* <-- Add this line */
     font-size: clamp(20px, 4vw, 32px) !important;
     line-height: 1.4 !important;
     margin: 0 !important;
     word-wrap: break-word;
-    
+
     @media (max-width: 768px) {
       font-size: clamp(18px, 5vw, 24px) !important;
       line-height: 1.3 !important;
@@ -178,14 +179,18 @@ const StyledTitle = styled(Title)`
   }
 `;
 
+
 const MyComponent: React.FC = () => {
   return (
     <Container>
-      <LeftBox>
-        <StyledTitle level={2}>
-          Lost on campus? Missed events? Unsure where to exit during a fire? We make navigation easy, events visible, and emergencies safer.
-        </StyledTitle>
-      </LeftBox>
+    <LeftBox>
+      <StyledTitle level={2}>
+        Lost on campus? Missed events? Unsure where to exit during a fire?
+        <br />
+        We make navigation easy, events visible, and emergencies safer.
+      </StyledTitle>
+    </LeftBox>
+  
 
       <RightBox>
         {/* Row 1 */}
