@@ -13,7 +13,7 @@ const menuItems = [
   { key: "home", label: "Home", href: "/" },
   { key: "solutions", label: "Solutions", href: "/solutions", hasDropdown: true },
   { key: "our-maps", label: "Our Maps", href: "/ourmaps" },
-  { key: "resources", label: "Resources", href: "/resources" },
+  { key: "resources", label: "Pricing", href: "/pricing" },
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];

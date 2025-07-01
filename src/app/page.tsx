@@ -9,9 +9,13 @@ import Header from "./components/Header";
 import '@fontsource/orbitron';
 import '@fontsource/dm-sans';
 import { useRouter } from 'next/navigation';
-import Image from "next/image";
+
 import Footer from "./components/Footer";
 import MyComponent from "./components/box";
+import PaginatedTwoColumnLayout from "./components/custompage";
+
+
+
 
 const StyledCard = styled(Card)`
   width: 100%;
@@ -122,8 +126,11 @@ We at Nakshatra help large public spaces like airports, theme parks, malls, hosp
         </StyledSubTypography>
         <StyledButton onClick={() => router.push('/contactus')}>Contact Us</StyledButton>
       </StyledCard>
-      <div style={{ height: '800px', position: 'relative' }}>
-</div>
+      <>
+      
+    
+  </>
+  <PaginatedTwoColumnLayout />
       <MyComponent />
       <Footer />
     </div>
