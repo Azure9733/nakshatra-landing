@@ -1,82 +1,161 @@
 "use client";
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import '@fontsource/dm-sans';
-import Image from 'next/image';
-import { ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
 
-// Styled Components
-const Wrapper = styled.div`
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import Image from "next/image";
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+`;
+
+const Container = styled.section`
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  font-family: 'DM Sans', sans-serif;
+  color: white;
+  user-select: none;
+`;
+
+const RowWithButtons = styled.div`
   position: relative;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  color: white;
-  margin-bottom: clamp(4rem, 6vw, 6rem);
-`;
-
-const LeftContainer = styled.div`
-  flex: 1 1 clamp(300px, 35%, 600px);
-  padding: clamp(1rem, 2vw, 2rem);
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center; /* <-- Add this line */
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
-
-const RightContainer = styled.div`
-  flex: 1 1 clamp(300px, 65%, 800px);
-  padding: clamp(1rem, 2.5vw, 2rem);
+const ContentRow = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
   justify-content: center;
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1rem, 3vw, 1.6rem);
-  line-height: 1.6;
-  margin-right:20px;
+  min-height: 500px;
+  position: relative;
+  animation: ${fadeIn} 0.7s ease forwards;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    min-height: auto;
+    gap: 1.5rem;
+  }
 `;
 
+const ImageWrapper = styled.div`
+  flex: 1;
+  max-width: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  @media (max-width: 768px) {
+    max-width: 280px;   /* Slightly smaller max width */
+    width: 90vw;        /* Responsive width */
+    min-width: 240px;   /* Don't shrink below this */
+    min-height: 360px;  /* Maintain aspect ratio roughly */
+    margin-bottom: 2rem;
+  }
+`;
 
-const NavIcon = styled.div<{ position: 'left' | 'right' }>`
+const TextBlock = styled.div`
+  flex: 1.3;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    padding: 0;
+    font-size: 1.2rem;
+  }
+`;
+
+const Highlight = styled.span`
+  color: #7adc40;
+  font-weight: 700;
+`;
+
+const SideButton = styled.button`
   position: absolute;
   top: 50%;
-  ${(props) => (props.position === 'left' ? 'left: 10px;' : 'right: 10px;')}
   transform: translateY(-50%);
+  background: transparent;
+  border: 2.5px solid #7adc40;
+  color: #7adc40;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 30px;
   cursor: pointer;
-  z-index: 10;
+  transition: all 0.3s ease;
+  user-select: none;
+  min-width: 100px;
+  z-index: 2;
 
-  svg {
-    color: white;
-    transition: color 0.3s ease;
+  &:hover {
+    background-color: #7adc40;
+    color: #0a0a0a;
+    box-shadow: 0 0 15px #7adc40;
   }
 
-  &:hover svg {
-    color: #ccc;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 20px #7adc40;
   }
-`;
 
-const FadeWrapper = styled.div<{ keyProp: number }>`
-  animation: fadeIn 0.4s ease-in-out;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @media (max-width: 768px) {
+    top: auto;
+    bottom: -3rem;
+    transform: none;
+    position: static;
+    margin-top: 2rem;
   }
 `;
 
-// Page-specific content
+const PrevButton = styled(SideButton)`
+  left: -10rem;
+
+  @media (max-width: 768px) {
+    left: 0;
+  }
+`;
+
+const NextButton = styled(SideButton)`
+  right: -10rem;
+
+  @media (max-width: 768px) {
+    right: 0;
+  }
+`;
+
+const DotRow = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+`;
+
+const Dot = styled.span<{ active: boolean }>`
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: ${({ active }) => (active ? "#7adc40" : "rgba(122,220,64,0.35)")};
+  box-shadow: ${({ active }) => (active ? "0 0 8px #7adc40" : "none")};
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+`;
+
 const getContent = (page: number) => {
+  const commonImageStyle = { borderRadius: '20px', objectFit: 'cover' as const };
+
   switch (page) {
     case 1:
       return {
@@ -84,13 +163,17 @@ const getContent = (page: number) => {
           <Image
             src="/indoorFinal.png"
             alt="Indoor Mapping"
-            width={300}
-            height={500}
-            style={{ borderRadius: '12px', marginBottom: '20px' }}
+            width={320}
+            height={480}
+            priority
+            style={commonImageStyle}
           />
         ),
-        right:
-          'Navigate the indoors like GPS never left—with 2D indoor maps that make complex spaces simple. From malls to museums, intuitive layouts and precise positioning help users find their way effortlessly, improving experience and accessibility without overwhelming the screen.',
+        right: (
+          <>
+            Navigate indoors like <Highlight>GPS never left</Highlight> — clear maps and precise positioning.<Highlight> Find your way effortlessly.</Highlight>
+          </>
+        ),
       };
     case 2:
       return {
@@ -98,14 +181,17 @@ const getContent = (page: number) => {
           <Image
             src="/emergencyFinal.png"
             alt="Emergency Navigation"
-            width={300}
-            height={500}
-            style={{ borderRadius: '12px', marginBottom: '20px' }}
-            
+            width={320}
+            height={480}
+            priority
+            style={commonImageStyle}
           />
         ),
-        right:
-          'Smarter emergency evacuations start with clarity, not chaos. Using real-time data and precisely mapped spaces, occupants are guided through the safest, fastest escape routes—adapted instantly as conditions change.',
+        right: (
+          <>
+            <Highlight>Emergency evacuations made smarter.</Highlight> Live data and mapped spaces guide occupants quickly and safely.
+          </>
+        ),
       };
     case 3:
       return {
@@ -113,13 +199,17 @@ const getContent = (page: number) => {
           <Image
             src="/outdoor2Final.png"
             alt="Event Mapping"
-            width={300}
-            height={500}
-            style={{ borderRadius: '12px', marginBottom: '20px' }}
+            width={320}
+            height={480}
+            priority
+            style={commonImageStyle}
           />
         ),
-        right:
-          'Know where the action is—right on the map. Integrated event tracking transforms static floor plans into dynamic, living maps that show real-time locations of sessions, performances, or meetups. Whether it’s a bustling expo, campus fest, or corporate summit, users can explore, discover, and navigate every moment as it happens.',
+        right: (
+          <>
+            <Highlight>Live event tracking on outdoor maps</Highlight> bring maps to life — explore and find activities <Highlight>as they happen</Highlight>.
+          </>
+        ),
       };
     case 4:
       return {
@@ -127,22 +217,32 @@ const getContent = (page: number) => {
           <Image
             src="/arFinal-removebg-preview.png"
             alt="AR Navigation"
-            width={300}
-            height={500}
-            style={{ borderRadius: '12px', marginBottom: '20px' }}
+            width={320}
+            height={480}
+            priority
+            style={commonImageStyle}
           />
         ),
-        right:
-          'With AR-based indoor navigation, finding your way inside complex buildings—airports, malls, hospitals, or campuses—becomes as intuitive as outdoor GPS. By layering digital directions onto the real world, it guides users turn by turn, floor by floor, delivering seamless, real-time orientation exactly when and where it’s needed.',
+        right: (
+          <>
+            <Highlight>AR navigation in complex buildings</Highlight> gives you Real-time, turn-by-turn directions layered onto your surroundings.
+          </>
+        ),
       };
     default:
-      return { left: '', right: '' };
+      return { left: null, right: null };
   }
 };
 
 const PaginatedTwoColumnLayout: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = 4;
+
+  const [animKey, setAnimKey] = useState(0);
+
+  useEffect(() => {
+    setAnimKey((k) => k + 1);
+  }, [currentPage]);
 
   const { left, right } = getContent(currentPage);
 
@@ -155,22 +255,34 @@ const PaginatedTwoColumnLayout: React.FC = () => {
   };
 
   return (
-    <>
-      <FadeWrapper keyProp={currentPage}>
-        <Wrapper>
-          <NavIcon position="left" onClick={goPrev}>
-            <ArrowLeftCircle size={40} />
-          </NavIcon>
+    <Container aria-label="Feature showcase carousel">
+      <RowWithButtons>
+        <PrevButton onClick={goPrev} aria-label="Previous feature">‹ Prev</PrevButton>
 
-          <NavIcon position="right" onClick={goNext}>
-            <ArrowRightCircle size={40} />
-          </NavIcon>
+        <ContentRow key={animKey}>
+          <ImageWrapper>{left}</ImageWrapper>
+          <TextBlock>{right}</TextBlock>
+        </ContentRow>
 
-          <LeftContainer>{left}</LeftContainer>
-          <RightContainer>{right}</RightContainer>
-        </Wrapper>
-      </FadeWrapper>
-    </>
+        <NextButton onClick={goNext} aria-label="Next feature">Next ›</NextButton>
+      </RowWithButtons>
+
+      <DotRow>
+        {[...Array(totalPages)].map((_, i) => (
+          <Dot
+            key={i}
+            active={i + 1 === currentPage}
+            onClick={() => setCurrentPage(i + 1)}
+            aria-label={`Go to feature ${i + 1}`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') setCurrentPage(i + 1);
+            }}
+          />
+        ))}
+      </DotRow>
+    </Container>
   );
 };
 
