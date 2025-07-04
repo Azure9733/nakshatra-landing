@@ -9,13 +9,11 @@ import Header from "./components/Header";
 import '@fontsource/orbitron';
 import '@fontsource/dm-sans';
 import { useRouter } from 'next/navigation';
-
+import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import MyComponent from "./components/box";
 import PaginatedTwoColumnLayout from "./components/custompage";
-
-
-
+import AnimatedCounter from './components/AnimatedCounter';
 
 const StyledCard = styled(Card)`
   width: 100%;
@@ -57,7 +55,7 @@ const StyledTitle = styled(Typography)`
   font-size: clamp(3rem, 6.5vw, 4.5rem);
   font-family: 'DM Sans', sans-serif;
   font-weight: 1000;
-  margin-bottom: 2.5rem; /* Increased spacing below */
+  margin-bottom: 2.5rem;
 
   background: linear-gradient(90deg, #7adc40, #caff89, #7adc40);
   -webkit-background-clip: text;
@@ -68,13 +66,12 @@ const StyledTitle = styled(Typography)`
 
 const StyledSubTypography = styled(Typography)`
   width: clamp(85%, calc(70% + 5vw), 100%);
-  margin: 0 auto;
+  margin: 0 auto 4rem;
   text-align: center;
   font-size: clamp(1.5rem, 3.5vw, 1.5rem);
   color: white;
   padding: 0.5rem;
   font-family: 'DM Sans', sans-serif;
-  margin-bottom: 4rem; /* Added spacing below */
 
   @media (min-width: 768px) {
     padding: 0.75rem;
@@ -88,34 +85,91 @@ const StyledSubTypography = styled(Typography)`
 `;
 
 const StyledButton = styled(Button)`
-  width: clamp(8rem, 15vw, 11.25rem);
-  height: clamp(2.5rem, 6vh, 3.5rem);
-  font-size: clamp(0.875rem, 2vw, 1.125rem);
-  font-family: 'DM Sans', sans-serif;
-  background-color: #7adc40;
-  border-radius: 1.875rem;
+  width: clamp(9rem, 14vw, 12rem);
+  height: clamp(3rem, 6vh, 3.75rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: bold;
+  background: #7adc40;
+  border-radius: 2rem;
   border: none;
+  box-shadow: 0 0 15px rgba(122, 220, 64, 0.8);
+  transition: all 0.3s ease;
+  color: #000;
+
   display: block;
-  margin: 0 auto;
+  margin: 2rem auto 4rem auto; /* 🟢 This centers the button horizontally */
 
   &:hover {
-    background-color: #11a5e9 !important;
     transform: scale(1.05);
+    box-shadow: 0 0 22px rgba(122, 220, 64, 1);
   }
 
   &:active {
     transform: scale(0.95);
+    box-shadow: 0 0 10px rgba(122, 220, 64, 0.6);
+  }
+
+  &:focus {
+    background: #7adc40;
+    color: #000;
   }
 `;
+
+
+
+const TrustedContainer = styled.div`
+  width: clamp(85%, calc(70% + 5vw), 100%);
+  margin: 0 auto 3rem;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  color: white;
+
+  /* Headline */
+  > div:first-child {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #7adc40, #caff89, #7adc40);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    letter-spacing: 1.2px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    margin: 0.75rem 0;
+    color: #d1d1d1;
+  }
+
+  li.orange {
+    color: #ffa500;
+    font-weight: 800;
+  }
+
+  li.users {
+    font-weight: 900;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: #7adc40;
+  }
+`;
+
 const StyledSubTypography2 = styled(Typography)`
   width: clamp(85%, calc(70% + 5vw), 100%);
-  margin: 0 auto;
+  margin: 0 auto 4rem;
   text-align: center;
   font-size: clamp(2.5rem, 3.5vw, 1.5rem);
   color: white;
   padding: 0.5rem;
   font-family: 'DM Sans', sans-serif;
-  margin-bottom: 4rem; /* Added spacing below */
 
   @media (min-width: 768px) {
     padding: 0.75rem;
@@ -128,7 +182,6 @@ const StyledSubTypography2 = styled(Typography)`
   }
 `;
 
-
 const Home = () => {
   const router = useRouter();
 
@@ -138,41 +191,30 @@ const Home = () => {
       <StyledCard>
         <StyledTitle>Find Your Way, Stay Informed, Stay Safe.</StyledTitle>
         <StyledSubTypography>
-          
-We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces through interactive maps, live event tracking, and smart emergency evacuation systems.
-
-
+          We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces through interactive maps, live event tracking, and smart emergency evacuation systems.
         </StyledSubTypography>
+
+        <TrustedContainer aria-label="Already trusted by">
+          <div>Already trusted by:</div>
+          <ul>
+            <li className="orange">
+              Innovation Centre, Manipal Institute of Technology, MAHE
+            </li>
+            <li className="users">
+              <AnimatedCounter target={10000} />+ users
+            </li>
+          </ul>
+        </TrustedContainer>
+
         <StyledButton onClick={() => router.push('/contactus')}>Contact Us</StyledButton>
       </StyledCard>
-      <>
-      
-    
-  </>
-  <PaginatedTwoColumnLayout />
+
+      <PaginatedTwoColumnLayout />
       <MyComponent />
 
-      <StyledSubTypography2>
-          
-Trusted By: 
- </StyledSubTypography2>
- <StyledSubTypography2>
 
-<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-  <li style={{ color: 'orange', fontWeight: '900' }}>
-    Innovation Centre, Manipal Institute of Technology, MAHE
-  </li>
-  <li style={{ fontWeight: '900' }}>10,000+ users</li>
-</ul>
-
- </StyledSubTypography2>
- <StyledSubTypography2>
-          
-
- </StyledSubTypography2>
- <StyledButton onClick={() => router.push('/contactus')}>Contact Us</StyledButton>
+      <ContactSection />
       <Footer />
-
     </div>
   );
 };
