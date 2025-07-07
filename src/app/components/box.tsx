@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
 import '@fontsource/orbitron';
 import '@fontsource/dm-sans';
 import { FerrisWheel, Plane, Receipt, Landmark, University, Hospital } from 'lucide-react';
