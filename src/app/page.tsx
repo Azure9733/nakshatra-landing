@@ -53,7 +53,7 @@ const StyledCard = styled(Card)`
 const StyledTitle = styled(Typography)`
   text-align: center;
   font-size: clamp(3rem, 6.5vw, 4.5rem);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-weight: 1000;
   margin-bottom: 2.5rem;
 

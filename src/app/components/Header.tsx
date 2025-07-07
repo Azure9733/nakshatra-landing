@@ -51,10 +51,9 @@ const menuItems = [
 ];
 
 const solutionsDropdownItems = [
-  { key: "solution1", label: "Malls", href: "/solutions/malls" },
-  { key: "solution2", label: "Tourism", href: "/solutions/tourism" },
-  { key: "solution3", label: "Education", href: "/solutions/education" },
-  { key: "solution4", label: "Corporate", href: "/solutions/corporate" },
+  { key: "solution1", label: "Indoor Navigation", href: "/solutions/IndoorNavigation" },
+  { key: "solution2", label: "Outdoor Map", href: "/solutions/OutdoorMap" },
+  { key: "solution5", label: "AR Navigation", href: "/solutions/ARNavigation" },
 ];
 
 const ourMapsDropdownItems = [

@@ -30,7 +30,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ target, duration = 60
   }, [target, duration]);
 
   return (
-    <span>{count.toLocaleString()}+</span>
+    <span>{count.toLocaleString()}</span>
   );
 };
 
