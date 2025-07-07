@@ -56,12 +56,12 @@ const RotatingWords: React.FC = () => {
   const [currentWord, setCurrentWord] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % words.length);
-    }, 2000);
-    return () => clearInterval(id);
-  }, []);
-
+  const id = setInterval(() => {
+    setCurrentWord((prev) => (prev + 1) % words.length);
+  }, 2000);
+  return () => clearInterval(id);
+}, [words.length]);
+  
   return (
     <LeftColumn>
       <StyledTypography>
