@@ -7,7 +7,6 @@ import '@fontsource/orbitron';
 import '@fontsource/dm-sans';
 import { FerrisWheel, Plane, Receipt, Landmark, University, Hospital } from 'lucide-react';
 
-import { Typography } from 'antd';
 
 const Container = styled.div`
   background-color: #000;
