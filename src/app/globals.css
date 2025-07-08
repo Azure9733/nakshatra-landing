@@ -41,6 +41,18 @@ body {
   margin: 0;
 }
 
+.blinking-cursor {
+  font-weight: 100;
+  font-size: 1.2em;
+  color: #7adc40;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+
 a {
   color: inherit;
   text-decoration: none;

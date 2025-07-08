@@ -44,6 +44,8 @@ const GlobalStyles = createGlobalStyle`
 const menuItems = [
   { key: "home", label: "Home", href: "/" },
   { key: "solutions", label: "Solutions", href: "/solutions", hasDropdown: true },
+  { key: "use-cases", label: "Use Cases", href: "/usecases", hasDropdown: true },
+
   { key: "our-maps", label: "Our Maps", href: "/ourmaps", hasDropdown: true },
   { key: "resources", label: "Pricing", href: "/pricing" },
   { key: "about", label: "About Us", href: "/aboutus" },
@@ -55,6 +57,7 @@ const solutionsDropdownItems = [
   { key: "solution2", label: "Outdoor Map", href: "/solutions/OutdoorMap" },
   { key: "solution5", label: "AR Navigation", href: "/solutions/ARNavigation" },
 ];
+
 
 const ourMapsDropdownItems = [
   { key: "map1", label: "MIT", href: "https://mit.nakshatramaps.com/" },
@@ -87,6 +90,83 @@ const ourMapsDropdownMenu = {
     ),
   })),
 };
+const useCasesDropdownItems = [
+  { key: "airports", label: "Airports", href: "/usecases/airports" },
+  { key: "malls", label: "Malls", href: "/usecases/malls" },
+  { key: "hospitals", label: "Hospitals", href: "/usecases/hospitals" },
+  { key: "themeparks", label: "Theme Parks", href: "/usecases/themeparks" },
+  {
+    key: "campus",
+    label: "Campus",
+    children: [
+      { key: "educational", label: "Educational", href: "/usecases/campus/educational" },
+      { key: "corporate", label: "Corporate", href: "/usecases/campus/corporate" },
+    ],
+  },
+];
+
+
+const useCasesDropdownMenu = {
+  items: useCasesDropdownItems.map(item => {
+    if (item.children) {
+      const isCampus = item.key === "campus";
+
+      return {
+        key: item.key,
+        label: (
+          <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontFamily: 'Orbitron, sans-serif',
+              color: '#7adc40',
+            }}
+          >
+            {item.label}
+            {isCampus && (
+              <span
+                style={{
+                  fontFamily: 'Arial, sans-serif',
+                  fontSize: '1.2em',
+                  transform: 'rotate(-90deg) scaleX(1.4)',
+                  display: 'inline-block',
+                  lineHeight: '1',
+                }}
+              >
+                &#8250; {/* Unicode character for a slightly more open angle > */}
+              </span>
+            )}
+          </span>
+        ),
+        children: item.children.map(sub => ({
+          key: sub.key,
+          label: (
+            <Link
+              href={sub.href}
+              style={{ color: '#7adc40', textDecoration: 'none' }}
+            >
+              {sub.label}
+            </Link>
+          ),
+        })),
+      };
+    }
+
+    return {
+      key: item.key,
+      label: (
+        <Link
+          href={item.href}
+          style={{ color: '#7adc40', textDecoration: 'none' }}
+        >
+          {item.label}
+        </Link>
+      ),
+    };
+  }),
+};
+
 
 const Navbar = styled.nav`
   width: 100%;
@@ -145,11 +225,17 @@ const DropdownTrigger = styled.span`
   align-items: center;
   gap: clamp(0.3rem, 0.5vw, 0.5rem);
 
+  svg {
+    transform: scaleX(1.4) rotate(0deg); /* More open down arrow */
+    font-family: system-ui, sans-serif !important; /* Use different font just for icon */
+  }
+
   &:hover {
     transform: scale(1.1);
     text-decoration: underline;
   }
 `;
+
 
 const MobileMenuButton = styled(Button)`
   display: none;
@@ -211,6 +297,58 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
+  const useCasesDropdownMenu = {
+    items: useCasesDropdownItems.map(item => {
+      if (item.children) {
+        return {
+          key: item.key,
+          label: (
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '48px',
+                color: '#7adc40',
+                fontFamily: 'Orbitron, sans-serif',
+              }}
+            >
+              {item.label}
+              {item.key === 'campus' && (
+                <span
+                  style={{
+                    fontFamily: 'Arial, sans-serif',
+                    transform: 'scaleX(1.3)',
+                    fontSize: '1.5rem',
+                    lineHeight: 1,
+                  }}
+                >
+                  &#8250;
+                </span>
+              )}
+            </span>
+          ),
+
+          children: item.children.map(sub => ({
+            key: sub.key,
+            label: (
+              <Link href={sub.href} style={{ color: '#7adc40', textDecoration: 'none' }}>
+                {sub.label}
+              </Link>
+            )
+          }))
+        };
+      }
+      return {
+        key: item.key,
+        label: (
+          <Link href={item.href} style={{ color: '#7adc40', textDecoration: 'none' }}>
+            {item.label}
+          </Link>
+        )
+      };
+    })
+  };
+
   const mobileMenuItems: MenuProps['items'] = [
     ...menuItems.slice(0, -1).map(({ key, label, href }) => {
       if (key === "solutions") {
@@ -227,6 +365,37 @@ export default function Header() {
           })),
         };
       }
+      if (key === "use-cases") {
+        return {
+          key,
+          label,
+          children: useCasesDropdownItems.map(item => {
+            if (item.children) {
+              return {
+                key: item.key,
+                label: item.label,
+                children: item.children.map(sub => ({
+                  key: sub.key,
+                  label: (
+                    <Link href={sub.href} onClick={() => setMenuOpen(false)} style={{ color: '#7adc40' }}>
+                      {sub.label}
+                    </Link>
+                  )
+                }))
+              };
+            }
+            return {
+              key: item.key,
+              label: (
+                <Link href={item.href} onClick={() => setMenuOpen(false)} style={{ color: '#7adc40' }}>
+                  {item.label}
+                </Link>
+              )
+            };
+          })
+        };
+      }
+
       if (key === "our-maps") {
         return {
           key,
@@ -292,11 +461,18 @@ export default function Header() {
           {menuItems.slice(0, -1).map(({ key, label, href }) => {
             const isSolutions = key === "solutions";
             const isOurMaps = key === "our-maps";
+            const isUseCases = key === "use-cases";
 
             return (
               <li key={key}>
                 {isSolutions ? (
                   <Dropdown menu={dropdownMenu} trigger={['hover']} placement="bottomLeft">
+                    <DropdownTrigger>
+                      {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
+                    </DropdownTrigger>
+                  </Dropdown>
+                ) : isUseCases ? (
+                  <Dropdown menu={useCasesDropdownMenu} trigger={['hover']} placement="bottomLeft">
                     <DropdownTrigger>
                       {label} <DownOutlined style={{ fontSize: `clamp(10px, 1.2vw, 12px)` }} />
                     </DropdownTrigger>
@@ -313,6 +489,7 @@ export default function Header() {
               </li>
             );
           })}
+
           <li>
             <StyledHeaderButton onClick={() => router.push('/contactus')}>
               Contact Us

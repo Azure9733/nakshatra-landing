@@ -3,7 +3,7 @@
 "use client";
 
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button, Card, Typography } from "antd";
 import Header from "./components/Header";
 import '@fontsource/orbitron';
@@ -14,6 +14,9 @@ import Footer from "./components/Footer";
 import MyComponent from "./components/box";
 import PaginatedTwoColumnLayout from "./components/custompage";
 import AnimatedCounter from './components/AnimatedCounter';
+import TypewriterText from './components/TypewriterText';
+
+
 
 const StyledCard = styled(Card)`
   width: 100%;
@@ -182,6 +185,7 @@ const StyledSubTypography2 = styled(Typography)`
   }
 `;
 
+
 const Home = () => {
   const router = useRouter();
 
@@ -189,7 +193,7 @@ const Home = () => {
     <div className="App">
       <Header />
       <StyledCard>
-        <StyledTitle>Find Your Way, Stay Informed, Stay Safe.</StyledTitle>
+        <StyledTitle><TypewriterText /></StyledTitle>
         <StyledSubTypography>
           We at Nakshatra help large public spaces like airports, theme parks, malls, hospitals, universities, and other public spaces through interactive maps, live event tracking, and smart emergency evacuation systems.
         </StyledSubTypography>
@@ -197,9 +201,6 @@ const Home = () => {
         <TrustedContainer aria-label="Already trusted by">
           <div>Already trusted by:</div>
           <ul>
-            <li className="orange">
-              Innovation Centre, Manipal Institute of Technology, MAHE
-            </li>
             <li className="users">
               <AnimatedCounter target={10000} />+ users
             </li>
