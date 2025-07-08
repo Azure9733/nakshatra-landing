@@ -46,13 +46,12 @@ const TypewriterText = () => {
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, currentPhrase]);
 
- 
   return (
-  <span>
-    {currentText}
-    <span style={{ color: '#7adc40', fontWeight: 100, fontSize: '1.2em' }}>|</span>
-  </span>
-);
-}
+    <span>
+      {currentText}
+      <BlinkingCursor>|</BlinkingCursor>
+    </span>
+  );
+};
 
 export default TypewriterText;
