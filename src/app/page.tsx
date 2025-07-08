@@ -202,7 +202,7 @@ const Home = () => {
           <div>Already trusted by:</div>
           <ul>
             <li className="users">
-              <AnimatedCounter target={10000} />+ users
+              <AnimatedCounter target={75000} />+ users
             </li>
           </ul>
         </TrustedContainer>
