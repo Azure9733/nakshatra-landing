@@ -106,57 +106,6 @@ const useCasesDropdownItems = [
 ];
 
 
-const useCasesDropdownMenu = {
-  items: useCasesDropdownItems.map(item => {
-    if (item.children) {
-      return {
-        key: item.key,
-        label: (
-          <span
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '48px',
-              color: '#7adc40',
-              fontFamily: 'Orbitron, sans-serif',
-            }}
-          >
-            {item.label}
-            {item.key === 'campus' && (
-              <span
-                style={{
-                  fontFamily: 'Arial, sans-serif',
-                  transform: 'scaleX(1.3)',
-                  fontSize: '1.5rem',
-                  lineHeight: 1,
-                }}
-              >
-                ›
-              </span>
-            )}
-          </span>
-        ),
-        children: item.children.map(sub => ({
-          key: sub.key,
-          label: (
-            <Link href={sub.href} style={{ color: '#7adc40', textDecoration: 'none' }}>
-              {sub.label}
-            </Link>
-          )
-        }))
-      };
-    }
-    return {
-      key: item.key,
-      label: (
-        <Link href={item.href} style={{ color: '#7adc40', textDecoration: 'none' }}>
-          {item.label}
-        </Link>
-      )
-    };
-  })
-};
-
 const Navbar = styled.nav`
   width: 100%;
   display: flex;
