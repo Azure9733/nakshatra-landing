@@ -46,16 +46,7 @@ const TypewriterText = () => {
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, currentPhrase]);
 
- const blink = keyframes`
-  50% { opacity: 0; }
-`;
-
-const BlinkingCursor = styled.span`
-  font-weight: 100;
-  font-size: 1.2em;
-  color: #7adc40;
-  animation: ${blink} 1s step-end infinite;
-`;
+ 
   return (
   <span>
     {currentText}
